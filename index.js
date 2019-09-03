@@ -32,7 +32,10 @@ request(websiteUrl, function (err, resp, html) {
     };
 
     request(options, function (err, resp, body) {
-        if (err) return console.log(error);
+        if (err) {
+            console.error(error);
+            process.exit(1);
+        }
     });
 });
 
