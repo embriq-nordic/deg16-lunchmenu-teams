@@ -1,0 +1,19 @@
+{
+  "name": "deg16-lunchmenu-teams",
+  "version": "1.0.0",
+  "description": "A script to fetch lunchmenu from deg16.no/kjokkenet and publish to a channel in Teams",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rejlersembriq/deg16-lunchmenu-teams.git"
+  },
+  "author": "Mads Moi-Aune <mads.aune@rejlers.no>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rejlersembriq/deg16-lunchmenu-teams/issues"
+  },
+  "homepage": "https://github.com/rejlersembriq/deg16-lunchmenu-teams#readme"
+}
