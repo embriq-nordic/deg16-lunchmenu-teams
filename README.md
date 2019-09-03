@@ -1,8 +1,9 @@
 This script fetches the lunch menu from deg16.no/kjokkenet and publish it to a channel in Teams.
 
 1. Install nodejs and git
-2. Clone this repo to `/srv` 
-3. Add this to CRONTAB
+2. Clone this repo to `/srv`
+3. Add a file called `.env` and add your Teams URL to the variable TEAMS_URL
+4. Add this to CRONTAB
 
 crontab
 
