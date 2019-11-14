@@ -2,7 +2,7 @@ const request = require('request');
 const cheerio = require('cheerio');
 require('dotenv').config();
 
-const websiteUrl = 'http://www.braatheneiendom.no/NO/Eiendommer/DEG16/Kjokkenet/';
+const websiteUrl = 'http://braathen.digimaker.no/NO/Eiendommer/DEG16/Kjokkenet/';
 
 request(websiteUrl, function (err, resp, html) {
     if (err && resp.statusCode != 200) {
