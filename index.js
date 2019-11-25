@@ -1,43 +1,44 @@
-const request = require('request');
+const axios = require('axios');
 const cheerio = require('cheerio');
+const dateFormat = require('dateformat');
 require('dotenv').config();
 
-const websiteUrl = 'http://braathen.digimaker.no/NO/Eiendommer/DEG16/Kjokkenet/';
+const websiteUrl = 'https://braatheneiendom.no/eiendommer-5190/dronning-eufemias-gate-16/praktisk-informasjon';
+const today = new Date().getDay();
+const weekdays = [ "SØNDAG", "MANDAG", "TIRSDAG", "ONSDAG", "TORSDAG", "FREDAG", "LØRDAG" ];
 
-request(websiteUrl, function (err, resp, html) {
-    if (err && resp.statusCode != 200) {
-        console.error(error);
-        process.exit(1);
-    }
+axios.get(websiteUrl)
+    .then(resp => {
 
-    const today = new Date().getDay() - 1;
-    const $ = cheerio.load(html);
-
-    let message;
-    let options;
-
-    const lines = $('.caption-body').eq(today).text().split("\n").filter(elm => elm != "").map(elm => elm.trim());
-    message = "##" + lines[1].toUpperCase() + "\n\n";
-    message += "--- \n\n";
-    for (let j = 2; j < lines.length; j++) {
-        message += lines[j] + "\n\n";
-    }
-
-    options = {
-        url: process.env.TEAMS_URL,
-        method: 'POST',
-        json: {
-            "text": message
+        const $ = cheerio.load(resp.data);
+        const menu = $('.blocktext .abstract').text().trim().split('\n');
+        
+        // Chop off everything before today's entries
+        menu.splice(0, menu.indexOf(weekdays[today]));
+        
+        // If its friday (and since its no saturday)
+        // we need to chop off the rest of the menu based on another criteria
+        if (today == 5) {
+            menu.splice(menu.indexOf('BESTILLING AV MAT TIL MØTER'));
+        } else {
+            menu.splice(menu.indexOf(weekdays[today+1]));
         }
-    };
+        
+        let title = menu.splice(0, 1)[0].trim() + " ";
+        title += dateFormat(new Date(), 'dd mmm yyyy').toUpperCase();
+        
+        let text;
+        text = title + "\n\n";
+        text += "---\n\n";
+        text += menu.join("\n\n");
 
-    request(options, function (err, resp, body) {
-        if (err) {
-            console.error(error);
-            process.exit(1);
-        }
-    });
-});
+        axios.post(process.env.TEAMS_URL, { text })
+            .then(resp => {
+                if (resp.status !== 200) {
+                    console.log(resp.statusText);
+                } 
+            })
+            .catch(err => console.log("ERROR:" + err));
 
-
-
+    })
+    .catch(err => console.log(err));
