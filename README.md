@@ -1,9 +1,10 @@
-This script fetches the lunch menu from deg16.no/kjokkenet and publish it to a channel in Teams.
+This script fetches the lunch menu from deg16.no and publish it to a channel in Teams.
 
 1. Install nodejs and git
 2. Clone this repo to `/srv`
-3. Add a file called `.env` and add your Teams URL to the variable TEAMS_URL
-4. Add this to CRONTAB
+3. Run `npm install`
+4. Add a file called `.env` and add your Teams Inomming Webhook URL to the variable TEAMS_URL
+5. Add this to CRONTAB
 
 crontab
 
